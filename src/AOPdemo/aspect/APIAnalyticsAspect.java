@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-@Order(3)
+@Order(1)
 public class APIAnalyticsAspect {
 
     @Before("AOPdemo.aspect.AOPExpressions.forDAOPackageNoGetterSetter()")

@@ -1,19 +1,15 @@
 package AOPdemo.DAO;
 
+import AOPdemo.Account;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class AccountDAO {
     private String name;
     private String serviceCode;
-
-    public AccountDAO() {
-    }
-
-    public AccountDAO(String name, String serviceCode) {
-        this.name = name;
-        this.serviceCode = serviceCode;
-    }
 
     public String getName() {
         System.out.println(getClass() + " :in getName()");
@@ -35,6 +31,18 @@ public class AccountDAO {
         this.serviceCode = serviceCode;
     }
 
+    public List<Account> findAccounts(){
+        List<Account> accounts = new ArrayList<>();
+        Account temp1 = new Account("Jhon", "Gold");
+        Account temp2 = new Account("Tom", "Silver");
+        Account temp3 = new Account("Lusy", "Coal");
+        accounts.add(temp1);
+        accounts.add(temp2);
+        accounts.add(temp3);
+
+        return accounts;
+    }
+
     public void  addAccount(){
         System.out.println(getClass() + " :Doing my db work: adding an account");
     }
@@ -43,4 +51,5 @@ public class AccountDAO {
         System.out.println(getClass() + " :made something else");
         return "It's done";
     }
+
 }
