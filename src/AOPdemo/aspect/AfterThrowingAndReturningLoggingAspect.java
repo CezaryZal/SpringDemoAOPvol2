@@ -3,6 +3,7 @@ package AOPdemo.aspect;
 import AOPdemo.Account;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -14,7 +15,17 @@ import java.util.List;
 @Aspect
 @Component
 @Order(2)
-public class AfterReturningLoggingAspect {
+public class AfterThrowingAndReturningLoggingAspect {
+
+    @AfterThrowing(
+            pointcut = "execution(* AOPdemo.DAO.AccountDAO.findAccounts(..))",
+            throwing = "Exe")
+    public void afterThrowingFindAccountsAdvice(JoinPoint joinPoint, Throwable Exe){
+
+        String method = joinPoint.getSignature().toShortString();
+        System.out.println("\n--||--Executing AfterThrowing on method: " + method);
+        System.out.println("\n--||>The exception is: " + Exe);
+    }
 
     @AfterReturning(
             pointcut = "execution(* AOPdemo.DAO.AccountDAO.findAccounts(..))",
@@ -39,7 +50,7 @@ public class AfterReturningLoggingAspect {
 
     @Before("AOPdemo.aspect.AOPExpressions.forDAOPackageNoGetterSetter()")
     public void beforeAddAccountAdvice(JoinPoint joinPoint){
-        System.out.println("\n Executing method beforeAddAccount from JoinPointsAspect class");
+        System.out.println("\n Executing method beforeAddAccount from AfterThrowingAndReturningAspect class");
 
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         System.out.println("Method: " + methodSignature);

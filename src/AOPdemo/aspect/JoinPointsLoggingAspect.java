@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-@Order(2)
+@Order(3)
 public class JoinPointsLoggingAspect {
 
     @Before("AOPdemo.aspect.AOPExpressions.forDAOPackageNoGetterSetter()")
