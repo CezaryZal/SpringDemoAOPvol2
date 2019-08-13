@@ -9,20 +9,30 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Aspect
 @Component
 public class AroundLoggingAspect {
 
+    private Logger logger = Logger.getLogger(getClass().getName());
+
     @Around("execution(* AOPdemo.service.*.getFortune(..))")
     public Object aroundGetFortune(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String method = proceedingJoinPoint.getSignature().toShortString();
-        System.out.println("\n----Executing After(Finally) on method: " + method);
+        logger.info("\n----Executing After(Finally) on method: " + method);
 
         long begin = System.currentTimeMillis();
-        Object result = proceedingJoinPoint.proceed();
+        Object result = null;
+        try {
+            result = proceedingJoinPoint.proceed();
+        } catch (Exception exc){
+            logger.warning(exc.getMessage());
+            throw exc;
+        }
+
         long end = System.currentTimeMillis();
-        System.out.println("\n ====> Duration: " + (end - begin)/1000.00 + " seconds");
+        logger.info("\n ====> Duration: " + (end - begin)/1000.00 + " seconds");
 
         return result;
     }

@@ -1,20 +1,24 @@
 package AOPdemo;
 
-import AOPdemo.DAO.AccountDAO;
 import AOPdemo.service.TrafficFortuneService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.List;
+import java.util.logging.Logger;
 
-public class AroundMainApp {
+public class ArounHandleExceptionMainApp {
+
+    private static Logger logger = Logger.getLogger(ArounHandleExceptionMainApp.class.getName());
+
     public static void main (String [] args){
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DemoConfig.class);
 
         TrafficFortuneService trafficFortuneService = context.getBean("trafficFortuneService", TrafficFortuneService.class);
-        System.out.println("\nMain Program: AroundApp");
-        String data = trafficFortuneService.getFortune();
-        System.out.println("\nMy fortune is: " + data + "\nfinish");
+        logger.info("\nMain Program: AroundApp");
+
+        String data = trafficFortuneService.getFortune(true);
+        logger.info("\nMy fortune is: " + data);
+        logger.info("Finished");
 
         context.close();
     }
